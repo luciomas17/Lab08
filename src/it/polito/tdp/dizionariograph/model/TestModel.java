@@ -12,7 +12,7 @@ public class TestModel {
 		System.out.println("Grafo creato: " + model.getVertexSetSize() + " vertici e " + model.getEdgeSetSize() + " archi\n");
 		
 		List<String> vicini = model.displayNeighbours("casa");
-		System.out.println("Neighbours di casa: " + vicini + "\n");
+		System.out.println("Neighbours di casa (dim: " + vicini.size() + "): " + vicini + "\n");
 		
 		System.out.println("Cerco il vertice con grado massimo...");
 		System.out.println(model.findMaxDegree());
