@@ -1,56 +1,18 @@
 package it.polito.tdp.dizionariograph.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
-import org.jgrapht.event.ConnectedComponentTraversalEvent;
-import org.jgrapht.event.EdgeTraversalEvent;
-import org.jgrapht.event.TraversalListener;
-import org.jgrapht.event.VertexTraversalEvent;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
-import org.jgrapht.traverse.BreadthFirstIterator;
-import org.jgrapht.traverse.GraphIterator;
-
 import it.polito.tdp.dizionariograph.db.WordDAO;
 
 public class Model {
 	
-	private class EdgeTraversedGraphListener implements TraversalListener<String, DefaultEdge> {
-		@Override
-		public void connectedComponentFinished(ConnectedComponentTraversalEvent arg0) {
-		}
-
-		@Override
-		public void connectedComponentStarted(ConnectedComponentTraversalEvent arg0) {
-		}
-
-		@Override
-		public void edgeTraversed(EdgeTraversalEvent<DefaultEdge> e) {
-			String sourceVertex = graph.getEdgeSource(e.getEdge());
-			String targetVertex = graph.getEdgeTarget(e.getEdge());
-			
-			if(!backVisit.containsKey(targetVertex) && backVisit.containsKey(sourceVertex))
-				backVisit.put(targetVertex, sourceVertex);
-		}
-
-		@Override
-		public void vertexFinished(VertexTraversalEvent<String> arg0) {
-		}
-
-		@Override
-		public void vertexTraversed(VertexTraversalEvent<String> arg0) {
-		}
-	}
-	
 	private WordDAO dao;
 	private Graph<String, DefaultEdge> graph;
 	private List<String> words;
-	private Map<String, String> backVisit;
 
 	public Model() {
 		this.dao = new WordDAO();
@@ -90,8 +52,14 @@ public class Model {
 	}
 
 	public int findMaxDegree() {
+		int maxDegree = 0;
+
+		for(String vertex : this.graph.vertexSet()) {
+			if(graph.degreeOf(vertex) > maxDegree)
+				maxDegree = graph.degreeOf(vertex);
+		}
 		
-		return -1;
+		return maxDegree;
 	}
 	
 	public int getVertexSetSize() {
