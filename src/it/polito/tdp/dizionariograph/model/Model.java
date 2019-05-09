@@ -16,10 +16,11 @@ public class Model {
 
 	public Model() {
 		this.dao = new WordDAO();
-		this.graph = new SimpleGraph<>(DefaultEdge.class);
+		this.words = new ArrayList<>();
 	}
 	
 	public void createGraph(int numeroLettere) {
+		this.graph = new SimpleGraph<>(DefaultEdge.class);
 		this.words = dao.getAllWordsFixedLength(numeroLettere);
 		
 		Graphs.addAllVertices(this.graph, this.words);
@@ -46,6 +47,9 @@ public class Model {
 	}
 
 	public List<String> displayNeighbours(String parolaInserita) {
+		if(!this.words.contains(parolaInserita))
+			return null;
+		
 		List<String> neighbours = Graphs.neighborListOf(this.graph, parolaInserita);
 
 		return neighbours;
@@ -68,5 +72,9 @@ public class Model {
 	
 	public int getEdgeSetSize() {
 		return this.graph.edgeSet().size();
+	}
+	
+	public List<String> getWordsList() {
+		return this.words;
 	}
 }
